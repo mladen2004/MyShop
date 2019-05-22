@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Core.Models;
+using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory;
 
 namespace MyShop.WebUI.Controllers
@@ -14,9 +15,11 @@ namespace MyShop.WebUI.Controllers
         // GET: ProductManager
         ProductRepository context;
         //konstruktor  koji inicijalizira taj repozitorij
+        ProductCategoryRepository productCategories;//koristimo kako bi mogli povući kategorije proizvoda iz baze podataka
         public ProductManagerController()
         {
             context = new ProductRepository();
+            productCategories = new ProductCategoryRepository();
         }
         public ActionResult Index()// vraća listu proizvoda
         {
@@ -24,10 +27,17 @@ namespace MyShop.WebUI.Controllers
             return View(products);
         }
 
-        public ActionResult Create()
+        public ActionResult Create()//dodajemo mogućnost kreiranaj novog objekta korištenjem view modela kako bi 
+                                    //dodali mogućnost odabira kategorije iz liste ------------------
         {
-            Product product = new Product();
-            return View(product);
+            //Product product = new Product();
+            //return View(product);
+
+            ProductManagerViewModel viewModel = new ProductManagerViewModel();//sadrži kao svojstvo objekt product i INumerable kategorije
+            viewModel.Product = new Product();//kreiramo novi prazni objekt proizvod
+            viewModel.ProductCategories = productCategories.Collection();//instanciramo kolekciju kategorija proizvoda
+            //u view vračamo view model koji smo upravo kreirali
+            return View(viewModel);
         }
         [HttpPost]
         public ActionResult Create(Product product)
@@ -54,7 +64,15 @@ namespace MyShop.WebUI.Controllers
                 return HttpNotFound();
             }
             else {
-                return View(product);
+                //obzirom da moramo vratiti view model isti moramo instancirati
+                //prvo instanciramo model koji ćemo povezati s edit modelom, a zatim moramo instancirati i listu pošto je i ona dio view modela
+
+                ProductManagerViewModel viewModel = new ProductManagerViewModel();
+                viewModel.Product = product;
+                viewModel.ProductCategories = productCategories.Collection();
+                //na ovaj način smo i kod create-a i kod edita dobili unutar samog modela listu iz koje možemo povući dropdown listu
+
+                return View(viewModel);
             }
         }
         [HttpPost]
