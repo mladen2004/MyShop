@@ -10,16 +10,18 @@ using MyShop.DataAccess.InMemory;
 namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
+
+        //Unutar product i productCategory klase moramo naslijediti BaseEntity klasu
     {
         //kreiramo instancu product repositorija
         // GET: ProductManager
-        ProductRepository context;
+        InMemoryRepository<Product> context;
         //konstruktor  koji inicijalizira taj repozitorij
-        ProductCategoryRepository productCategories;//koristimo kako bi mogli povući kategorije proizvoda iz baze podataka
+        InMemoryRepository<ProductCategory> productCategories;//koristimo kako bi mogli povući kategorije proizvoda iz baze podataka
         public ProductManagerController()
         {
-            context = new ProductRepository();
-            productCategories = new ProductCategoryRepository();
+            context = new InMemoryRepository<Product>();
+            productCategories = new InMemoryRepository<ProductCategory>();
         }
         public ActionResult Index()// vraća listu proizvoda
         {

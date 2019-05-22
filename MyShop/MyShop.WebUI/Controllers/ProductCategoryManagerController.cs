@@ -12,11 +12,11 @@ namespace MyShop.WebUI.Controllers
     {
         //kreiramo instancu product repositorija
         // GET: ProductCategoryManager
-        ProductCategoryRepository context;
+        InMemoryRepository<ProductCategory> context;
         //konstruktor  koji inicijalizira taj repozitorij
         public ProductCategoryManagerController()
         {
-            context = new ProductCategoryRepository();
+            context = new InMemoryRepository<ProductCategory>();
         }
         public ActionResult Index()// vraća listu proizvoda
         {

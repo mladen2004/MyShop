@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace MyShop.Core.Models
 {
-    public class Product//deklariramo je kao public jer mora biti dostupna iz drugih projekata, sadrži informacije o proizvodima
+    public class Product:BaseEntity
+        //deklariramo je kao public jer mora biti dostupna iz drugih projekata, sadrži informacije o proizvodima
     {
-        public string Id { get; set; }
+        //public string Id { get; set; }
         [StringLength(20)]
         [DisplayName("Product Name")]
         public string Name { get; set; }
@@ -20,11 +21,11 @@ namespace MyShop.Core.Models
         public string Categoriy { get; set; }
         public string Image { get; set; }//sadržavat će url na product image
 
-        public Product()//product konstruktor
-        {
-            this.Id = Guid.NewGuid().ToString();//kod svakog kereiranja novog proizvoda generirati će se novi guid
+        //public Product()//product konstruktor
+        //{
+        //    this.Id = Guid.NewGuid().ToString();//kod svakog kereiranja novog proizvoda generirati će se novi guid
 
-        }
-
+        //}
+        //Obzirom da baseEntity klasa sadrži konstruktor za id isti nije potrebno instancirati u ovoj klasi koja je nasljeđuje
     }
 }
