@@ -1,4 +1,5 @@
-﻿using MyShop.Core.Models;
+﻿using MyShop.Core.Contracts;
+using MyShop.Core.Models;
 using MyShop.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,13 @@ namespace MyShop.WebUI.Controllers
     {
         //kreiramo instancu product repositorija
         // GET: ProductCategoryManager
-        InMemoryRepository<ProductCategory> context;
+        IRepository<ProductCategory> context;/// <summary>
+        /// instanciranjem objekta iz klase koja nasljeđuje interface uvjek prvo moramo navesti naziv interfacea
+        /// </summary>
         //konstruktor  koji inicijalizira taj repozitorij
-        public ProductCategoryManagerController()
+        public ProductCategoryManagerController(IRepository<ProductCategory> productContext)
         {
-            context = new InMemoryRepository<ProductCategory>();
+            this.context =productContext;
         }
         public ActionResult Index()// vraća listu proizvoda
         {

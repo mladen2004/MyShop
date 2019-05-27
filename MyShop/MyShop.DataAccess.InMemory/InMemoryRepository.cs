@@ -1,4 +1,5 @@
-﻿using MyShop.Core.Models;
+﻿using MyShop.Core.Contracts;
+using MyShop.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace MyShop.DataAccess.InMemory
 {
-    public class InMemoryRepository<T> where T:BaseEntity //kad god prenosimo objekt T on mora biti vrste BaseEntity ili barem
-                                                          //naslijediti BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity //kad god prenosimo objekt T on mora biti vrste BaseEntity ili barem
+                                                                                     //naslijediti BaseEntity
     {
         //object cache
         ObjectCache cache = MemoryCache.Default;
@@ -58,7 +59,7 @@ namespace MyShop.DataAccess.InMemory
             T tToFind = items.Find(b => b.Id == Id);//kod bilo koje find procedure id javlja grešku jer program ne zna 
                                                     //što je to Id, T može biti bilo što i ne mora nužno sadržavati id
                                                     //pa stoga uvodimo novu base klasu koja kao property sadrži id
-                                                     //i koju mora naslijediti klasa InMemoryRepository
+                                                    //i koju mora naslijediti klasa InMemoryRepository
             if (tToFind != null)
             {
                 return (tToFind);
@@ -76,8 +77,8 @@ namespace MyShop.DataAccess.InMemory
         //kreiranje delete metode
         public void Delete(string Id)
         {
-            T tToDelete= items.Find(b => b.Id == Id);
-            if (tToDelete!= null)
+            T tToDelete = items.Find(b => b.Id == Id);
+            if (tToDelete != null)
             {
                 items.Remove(tToDelete);
             }

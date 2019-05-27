@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory;
@@ -15,13 +16,15 @@ namespace MyShop.WebUI.Controllers
     {
         //kreiramo instancu product repositorija
         // GET: ProductManager
-        InMemoryRepository<Product> context;
+        IRepository<Product> context;//deklaracija
         //konstruktor  koji inicijalizira taj repozitorij
-        InMemoryRepository<ProductCategory> productCategories;//koristimo kako bi mogli povući kategorije proizvoda iz baze podataka
-        public ProductManagerController()
+        IRepository<ProductCategory> productCategories;//koristimo kako bi mogli povući kategorije proizvoda iz baze podataka
+        public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> productCategoriesContext)//injection of classes through constructor
         {
-            context = new InMemoryRepository<Product>();
-            productCategories = new InMemoryRepository<ProductCategory>();
+            //context = new InMemoryRepository<Product>();//instanciranje
+            //productCategories = new InMemoryRepository<ProductCategory>();
+            context = productContext;
+            productCategories = productCategoriesContext;
         }
         public ActionResult Index()// vraća listu proizvoda
         {
